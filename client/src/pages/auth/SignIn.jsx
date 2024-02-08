@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 function SignIn() {
   let [auth,setAuth]=useAuth()
+  let location=useLocation()
   //env way
   //console.log(process.env.REACT_APP_PROXY)
   let [formData, setData] = useState({
@@ -40,7 +41,7 @@ function SignIn() {
         if (data.success) {
           toast(data.message);
           setAuth(data)
-          navigate("/");
+          navigate(location.state||"/");
         } else {
           toast(data.message);
         }

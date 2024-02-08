@@ -4,7 +4,6 @@ export let isRequire=async(req,res,next)=>{
     try{
          let decode= jwt.verify(req.headers.authorization,process.env.SECRET_KEY)
          req.user=decode
-         console.log('hello i am decode',decode)
          if(!decode)
          {
             res.status(200).send({message:"Unauthorized User"})
