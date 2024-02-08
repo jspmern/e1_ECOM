@@ -1,32 +1,60 @@
 import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
+import axios from "axios";
+import toast  from 'react-hot-toast'
+import { useNavigate } from "react-router-dom";
 
 function Signup() {
- let [formData,setData] =useState({name:"",password:"",phone:"",email:"",address:""})
- //this is for setting the value of form
- function formDataHandler(e)
- {
-     setData((pre)=>{
-      return {...pre,[e.target.name]:e.target.value}
-     })
- }
- function submitHandler(e)
- {
-    e.preventDefault()
-    //inline validation
-    if(!formData.name || !formData.email || !formData.password || !formData.phone || !formData.address)
-    {
-      console.log('all  field are required *')
+  //env way
+  //console.log(process.env.REACT_APP_PROXY)
+  let [formData, setData] = useState({
+    name: "",
+    password: "",
+    phone: "",
+    email: "",
+    address: "",
+  });
+  let navigate=useNavigate()
+  //this is for setting the value of form
+  function formDataHandler(e) {
+    setData((pre) => {
+      return { ...pre, [e.target.name]: e.target.value };
+    });
+  }
+  async function submitHandler(e) {
+    try {
+      e.preventDefault();
+      //inline validation
+      if (
+        !formData.name ||
+        !formData.email ||
+        !formData.password ||
+        !formData.phone ||
+        !formData.address
+      ) {
+        console.log("all  field are required *");
+      } else {
+        console.log(formData);
+        //api hitting
+        let res= await axios.post(`/api/v1/register`,{...formData})
+        let data=res.data
+        if(data.success)
+        {
+          toast(data.message)
+          navigate('/signin')
+        }
+        else{
+          toast(data.message)
+        }
+      }
+    } catch (err) {
+      console.log(err);
     }
-    else{
-      console.log(formData)
-    }
-   
- }
+  }
   return (
     <Layout title="Registration -ecomm">
       <h4 className="text-center m-5">Registration Form </h4>
-      <div className="container" style={{height:"70vh"}}>
+      <div className="container" style={{ height: "70vh" }}>
         <div className="row d-flex justify-content-center align-items-center">
           <div className="col-md-5">
             <form>
@@ -86,7 +114,11 @@ function Signup() {
                 />
               </div>
 
-              <button type="submit" className="btn btn-primary" onClick={submitHandler}>
+              <button
+                type="submit"
+                className="btn btn-primary"
+                onClick={submitHandler}
+              >
                 Register
               </button>
             </form>

@@ -1,14 +1,21 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 function Header() {
+  let [auth,setAuth]=useAuth()
+  //function for logouthandler
+  function logoutHandler()
+  {
+    setAuth({"user":'',"token":null})
+  }
   return (
  
           <nav className="navbar navbar-expand-lg navbar-light bg-light">
             <div className="container-fluid">
-              <a className="navbar-brand" href="#">
+              <Link className="navbar-brand" to="/">
                🛒 EComm
-              </a>
+              </Link>
               <button
                 className="navbar-toggler"
                 type="button"
@@ -35,7 +42,12 @@ function Header() {
                       CATEGORY
                     </NavLink>
                   </li>
-                  <li className="nav-item">
+                  {auth?.token ? ( <li className="nav-item">
+                    < Link className="nav-link" onClick={logoutHandler}>
+                        LOGOUT
+                    </Link>
+                  </li>):(<>
+                    <li className="nav-item">
                     <NavLink className="nav-link" to="/signup">
                        REGISTER
                     </NavLink>
@@ -45,6 +57,8 @@ function Header() {
                      LOGIN
                     </NavLink>
                   </li>
+                  </>)}
+                 
                   <li className="nav-item">
                     <NavLink className="nav-link" to="/cart">
                        CART(0)
