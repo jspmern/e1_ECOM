@@ -21,6 +21,10 @@ let userSchema=new mongoose.Schema({
         type:String,
         require:true
     },
+    answer:{
+        type:String,
+        require:true
+    },
     role:{
         type:Boolean,
         default:0

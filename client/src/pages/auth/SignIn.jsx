@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout/Layout";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 function SignIn() {
   let [auth,setAuth]=useAuth()
@@ -87,6 +87,10 @@ function SignIn() {
               >
                Login
               </button>
+               <hr/>
+                <div>
+                  <Link to='/forget-password'>Forget Password</Link>
+                </div>
             </form>
           </div>
         </div>

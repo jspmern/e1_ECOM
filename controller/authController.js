@@ -3,7 +3,7 @@ import usersModel from "../model/usersModel.js";
 import jwt from "jsonwebtoken";
 //this is my controller for registration
 export let registerController = async (req, res) => {
-  let { email, password, name, address, phone } = req.body;
+  let { email, password, name, address, phone,answer } = req.body;
   try {
     if (!email) {
       return res.status(500).send({ message: "email is required *" });
@@ -20,6 +20,9 @@ export let registerController = async (req, res) => {
     if (!phone) {
       return res.status(500).send({ message: "phone is required *" });
     }
+    if (!answer) {
+      return res.status(500).send({ message: "answer is required *" });
+    }
     let findUser = await usersModel.findOne({ email: email });
     if (findUser) {
       return res.status(200).send({ message: "User is Already Register" });
@@ -31,6 +34,7 @@ export let registerController = async (req, res) => {
       address,
       phone,
       email,
+      answer
     }).save();
 
     res
@@ -45,6 +49,7 @@ export let registerController = async (req, res) => {
     });
   }
 };
+//this is for the login
 export let loginController = async (req, res) => {
 try {
     let { email, password } = req.body;
@@ -91,3 +96,7 @@ try {
       res.status(500).send({message:"something wrong while login",success:false,err}) 
 };
 };
+//this is for the reset
+export let restPasswordHandler=async(req,res)=>{
+  
+}

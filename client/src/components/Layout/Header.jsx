@@ -43,9 +43,9 @@ function Header() {
                     </NavLink>
                   </li>
                   {auth?.token ? ( <li className="nav-item">
-                    < Link className="nav-link" onClick={logoutHandler}>
+                    < NavLink className="nav-link" onClick={logoutHandler}>
                         LOGOUT
-                    </Link>
+                    </NavLink>
                   </li>):(<>
                     <li className="nav-item">
                     <NavLink className="nav-link" to="/signup">
