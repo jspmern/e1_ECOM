@@ -33,20 +33,18 @@ function ForgetPassword() {
         !formData.password  || !formData.answer
      
       ) {
-        
-      } else {
-        console.log(formData)
-         
-        // //api hitting
-        // let res = await axios.post(`/api/v1/login`, { ...formData });
-        // let data = res.data;
-        // if (data.success) {
-        //   toast(data.message);
-        //   setAuth(data)
-        //   navigate(location.state||"/");
-        // } else {
-        //   toast(data.message);
-        // }
+           console.log('All field are required')
+      } else {  
+        //reset password
+        let res = await axios.post(`/api/v1/reset-password`, { ...formData });
+        let data = res.data;
+        if (data.success) {
+          toast(data.message);
+          setAuth(data)
+          navigate(location.state||"/signin");
+        } else {
+          toast(data.message);
+        }
       }
     } catch (err) {
       console.log(err);
@@ -84,7 +82,7 @@ function ForgetPassword() {
               </div>
               <div className="mb-3">
                 <input
-                  type="text"
+                  type="password"
                   className="form-control"
                   id="answer"
                   name="answer"
@@ -98,7 +96,7 @@ function ForgetPassword() {
                 className="btn btn-primary"
                 onClick={submitHandler}
               >
-               Login
+               RESET
               </button>
               
             </form>

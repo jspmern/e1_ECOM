@@ -1,4 +1,4 @@
-import { encryptPassword, matchPassword } from "../helper/authHelper.js";
+import { encryptPassword , matchPassword } from "../helper/authHelper.js";
 import usersModel from "../model/usersModel.js";
 import jwt from "jsonwebtoken";
 //this is my controller for registration
@@ -98,5 +98,21 @@ try {
 };
 //this is for the reset
 export let restPasswordHandler=async(req,res)=>{
-  
+ let {email,password,answer}=req.body;
+ if(!email)
+ {
+  return res.status(200).send({message:"Email is required*"})
+ } 
+ if(!password)
+ {
+  return res.status(200).send({message:"Field is required*"})
+ }
+   let findData= await usersModel.findOne({email,answer})
+   if(!findData)
+   {
+     return res.status(200).send({message:"Either email or answer are incorrect *"})
+   }
+   let hashpassword= await  encryptPassword(password)
+   let updateData= await usersModel.findByIdAndUpdate({_id:findData._id},{password:hashpassword},{new:true})
+   res.status(200).send({message:"Password Update Successful",success:true})
 }
