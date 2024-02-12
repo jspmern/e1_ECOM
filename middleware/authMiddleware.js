@@ -22,7 +22,7 @@ export let isRequire=async(req,res,next)=>{
 export let isAdmin=async(req,res,next)=>
 {
    let userData=await usersModel.findById({_id:req.user._id})
-   if(userData.role!=0)
+   if(userData.role==true)
    {
        next()
    }

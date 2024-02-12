@@ -12,5 +12,8 @@ route.post('/reset-password',restPasswordHandler)
 route.get('/auth-user',isRequire,(req,res)=>{
     res.send({ok:true})
 })
-
+//admin-auth-route || get
+route.get('/admin-auth-route',isRequire,isAdmin,(req,res)=>{
+    res.send({ok:true})
+})
 export default route;
