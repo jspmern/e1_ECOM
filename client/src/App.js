@@ -14,6 +14,10 @@ import Order from "./pages/user/Order";
 import Profile from "./pages/user/Profile";
 import AdminProtectedRoute from "./components/Route/AdminProtectedRoute";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import CreateCategory from "./pages/admin/CreateCategory";
+import CreateProduct from "./pages/admin/CreateProduct";
+import AllOrders from "./pages/admin/AllOrders";
+import Users from "./pages/admin/Users";
 function App() {
   return (
     <Routes>
@@ -24,13 +28,21 @@ function App() {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forget-password" element={<ForgetPassword />} />
+
+      {/* //this is for the normal user */}
       <Route path="/dashboard" element={<ProtectedRoute />}>
         <Route path="user" element={<Dashbord />} />
-        <Route path="order" element={<Order />} />
-        <Route path="profile" element={<Profile />} />
+        <Route path="user/order" element={<Order />} />
+        <Route path="user/profile" element={<Profile />} />
       </Route>
+
+      {/* //this is for admin user */}
       <Route path="/dashboard" element={<AdminProtectedRoute/>}>
         <Route path="admin" element={<AdminDashboard/>}/>
+        <Route path="admin/create-category" element={<CreateCategory/>}/>
+        <Route path="admin/create-product" element={<CreateProduct/>}/>
+        <Route path="admin/all-orders" element={<AllOrders/>}/>
+        <Route path="admin/users" element={<Users/>}/>
       </Route>
 
       <Route path="/*" element={<PageNotFound />} />
