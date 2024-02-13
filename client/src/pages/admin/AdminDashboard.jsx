@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from '../../components/Layout/Layout'
+import AdminDashboardMenu from '../../components/AdminDashboardMenu'
 
 function AdminDashboard() {
   return (
@@ -8,8 +9,7 @@ function AdminDashboard() {
      <h1 className='text-center m-3'>Admin Dashboard</h1>
      <div className="row d-flex justify-content-start">
         <div className="col-md-3">
-          {/* <UserDashboardMenu/> */}
-          //admin dashboardMenu
+           <AdminDashboardMenu/>
         </div>
         <div className="col-md-9">
          //content
