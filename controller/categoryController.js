@@ -19,3 +19,28 @@ export let createCategoryController=async(req,res)=>{
          err})
        }
 }
+//this is for getting all category
+export let allCategoryController =async (req,res)=>{
+    try{
+        let category= await categoryModel.find({}).sort({createdAt:-1})
+        res.status(200).send({message:"All Category",success:true,category,total:category.length})        
+    }
+    catch(err)
+    {
+        res.status(500).send({message:"Somthing wrong while fetching all category",success:false,err})
+    }
+    
+
+}
+//delete category
+export let deleteCategoryController=async (req,res)=>{
+    try{
+        let {id}=req.params
+        let result=await categoryModel.findByIdAndDelete({_id:id})
+        res.status(200).send({message:"Category Deleted successful",success:true,result})
+    }
+    catch(err)
+    {
+        res.status(500).send({message:"somthing wrong while deleting",success:false,err})
+    }
+}

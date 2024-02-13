@@ -9,5 +9,5 @@ let categorySchema=new mongoose.Schema({
     lowercase:true,
     require:true
    }
-})
+},{timestamps:true})
 export default mongoose.model('category',categorySchema)
