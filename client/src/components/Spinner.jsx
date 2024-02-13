@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
-function Spinner() {
+function Spinner({path}) {
   let [timer, setTimer] = useState(4);
   let navigate = useNavigate();
   let location=useLocation()
@@ -9,7 +9,7 @@ function Spinner() {
     let id = setInterval(() => {
       setTimer(--timer);
     }, 1000);
-    if (timer == 0) navigate("/signin",{state:location.pathname});
+    if (timer == 0) navigate(path?path:"/signin",{state:location.pathname});
     return () => {
       clearInterval(id);
     };
