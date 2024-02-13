@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+//this is my productSchema
 let productSchema= new mongoose.Schema({
     name:{
         type:String,
