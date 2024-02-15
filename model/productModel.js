@@ -26,8 +26,12 @@ let productSchema= new mongoose.Schema({
         require:true
     },
     images:[{
-        type:String,
-        require:true
+        url:{
+            type:String
+        },
+        public_id:{
+            type:String
+        }
     }],
     category:{
          type:mongoose.ObjectId,

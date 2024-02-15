@@ -5,6 +5,7 @@ import cors from 'cors'
 import DbConnection from './config/db.js';
 import authRoute from './route/authRoute.js';
 import categoryRoute from './route/createRoute.js'
+import productRoute from './route/productRoute.js'
 let app=express(); 
 //config
 //this is for dotenv
@@ -22,6 +23,8 @@ let PORT=process.env.PORT
 app.use('/api/v1',authRoute)
 //categoryRoute
 app.use('/api/v1',categoryRoute)
+//productRoute
+app.use('/api/v1',productRoute)
 app.listen(PORT,()=>{
     console.log(`Sever is started at  http://localhost:${PORT} in ${process.env.MODE} mode`)
 })
