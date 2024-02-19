@@ -10,6 +10,7 @@ export let createProductController = async (req, res) => {
     let { name, price, quantity, description, category, brand, shipping } =
       req.body;
     let images = req.files;
+  
     if (
       !name ||
       !price ||
@@ -103,6 +104,7 @@ export let updateProductController = async (req, res) => {
     let { id } = req.params;
    
       console.log(name,price,quantity,description,category,brand,shipping)
+      console.log(req.files)
     if (
       !name ||
       !price ||
