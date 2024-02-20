@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 import CategoryContext from "./context/categoryContext";
+import ProductContext from "./context/ProductContext";
 
 //this is for testing
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -14,7 +15,9 @@ root.render(
     <React.StrictMode>
       <AuthContext>
         <CategoryContext>
+          <ProductContext>
           <App />
+          </ProductContext>
         </CategoryContext>
       </AuthContext>
     </React.StrictMode>

@@ -12,7 +12,24 @@ function Products() {
                 <AdminDashboardMenu/>
             </div>
             <div className="col-md-9">
-                <h1>hello All product</h1>
+                <h4 className="text-center mt-2">All Product List</h4>
+                <hr/>
+                  <div className="container">
+                    <div className="row d-flex justify-content-center">
+                      <div className="col-md-3">
+                        <div className="card">
+                          <div className="card-body">
+                            <div>
+                              <img src="somthing" alt="somthing" className="img-fluid"/>
+                            </div>
+                            <p>title</p>
+                            <p>description....</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
             </div>
         </div>
       </div>
