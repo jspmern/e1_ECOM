@@ -19,6 +19,7 @@ import CreateProduct from "./pages/admin/CreateProduct";
 import AllOrders from "./pages/admin/AllOrders";
 import Users from "./pages/admin/Users";
 import Products from "./pages/admin/Products";
+import UpdateProduct from "./pages/admin/UpdateProduct";
 function App() {
   return (
     <Routes>
@@ -44,6 +45,7 @@ function App() {
         <Route path="admin/create-product" element={<CreateProduct/>}/>
        
         <Route path="admin/products" element={<Products/>}/>
+        <Route path="admin/products/:id" element={<UpdateProduct/>}/>
 
         <Route path="admin/all-orders" element={<AllOrders/>}/>
         <Route path="admin/users" element={<Users/>}/>

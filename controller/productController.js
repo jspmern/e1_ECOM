@@ -70,7 +70,7 @@ export let getAllProductController = async (req, res) => {
 export let getSingleProductController = async (req, res) => {
   try {
     let { id } = req.params;
-    let product = await productModel.findOne({ _id: id });
+    let product = await productModel.findOne({ _id: id }).populate('category');
     res.status(200).send({ message: "Result", product, success: true });
   } catch (err) {
     console.log(err);
