@@ -1,4 +1,4 @@
-import { createContext, useEffect, useReducer } from "react";
+import { createContext, useEffect, useReducer, useState } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
 import reducer from "../Reducers/ProductReducers";
@@ -22,6 +22,7 @@ let initalState = {
 };
 
 function ProductContext({ children }) {
+  let [productChange,setProductChange]=useState(false)
   let [state, dispatch] = useReducer(reducer, initalState);
   async function getAllProduct() {
     try {
@@ -47,9 +48,9 @@ function ProductContext({ children }) {
 
   useEffect(() => {
     getAllProduct();
-  }, []);
+  }, [productChange]);
   return (
-    <productContext.Provider value={{ ...state ,singleProduct}}>
+    <productContext.Provider value={{ ...state ,singleProduct,productChange,setProductChange}}>
       {" "}
       {children}{" "}
     </productContext.Provider>

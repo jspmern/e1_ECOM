@@ -8,9 +8,12 @@ import { Button, Select, Upload } from "antd";
 import { Option } from "antd/es/mentions";
 import { UploadOutlined } from "@ant-design/icons";
 import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
+import axios from "axios";
 
 function UpdateProduct() {
   let { id } = useParams();
+  let { productChange, setProductChange } = useProduct();
   let { singleProduct, single_loader, single_error, product } = useProduct();
   let [auth] = useAuth();
   let navigate = useNavigate();
@@ -23,57 +26,79 @@ function UpdateProduct() {
   let [description, setDescrition] = useState("");
   let [shipping, setShipping] = useState("");
   let [quantity, setQuantity] = useState("");
-  let [update, setUpdate] = useState(false);
   function categorySelector(value) {
     setCategory(value);
   }
 
   //this is for submit product handler
-  async function submitProductHandler(e) {
-    // try{
-    //     if(!name || !description || !brand || !price || !category || !quantity || !shipping )
-    //     {
-    //         toast('All field are required *')
-    //     }
-    //     if(images.length==0)
-    //     {
-    //         toast('All field are required *')
-    //     }
-    //     let formData=new FormData()
-    //     formData.append('name',name)
-    //     formData.append('price',price)
-    //     formData.append('description',description)
-    //     formData.append('brand',brand)
-    //     formData.append('quantity',quantity)
-    //     formData.append('category',category)
-    //     formData.append('shipping',shipping)
-    //     for(let i=0;i<images.length;i++)
-    //     {
-    //         formData.append("images",images[i].originFileObj)
-    //     }
-    //     let res= await axios.post('/api/v1/create-product',formData,{headers:{"Content-Type":"multipart/form-data",Authorization:auth.token,}})
-    //     if(res.data.success)
-    //     {
-    //        toast(res.data.message)
-    //        navigate('/dashboard/admin/products')
-    //     }
-    //     else{
-    //         toast(res.data.message)
-    //     }
-    // }
-    // catch(err)
-    // {
-    //     console.log(err)
-    //     toast(err.message)
-    // }
+  async function updateProductHandler(e) {
+    try {
+      if (
+        !name ||
+        !description ||
+        !brand ||
+        !price ||
+        !category ||
+        !quantity ||
+        !shipping
+      ) {
+        toast("All field are required *");
+      }
+      let formData = new FormData();
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("description", description);
+      formData.append("brand", brand);
+      formData.append("quantity", quantity);
+      formData.append("category", category);
+      formData.append("shipping", shipping);
+      for (let i = 0; i < images.length; i++) {
+        formData.append("images", images[i].originFileObj);
+      }
+      let res = await axios.put(`/api/v1/update-product/${id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: auth.token,
+        },
+      });
+      if (res.data.success) {
+        toast(res.data.message);
+        setProductChange(!productChange);
+        navigate("/dashboard/admin/products");
+      } else {
+        toast(res.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+      toast(err.message);
+    }
   }
-  console.log("...................", single_loader, single_error, product);
+  //this is for the deleting the file
+  async function deleteProductHandler() {
+    try {
+      let res = await axios.delete(`/api/v1/delete-product/${id}`, {
+        headers: { Authorization: auth.token },
+      });
+
+      if (res.data.success) {
+        toast(res.data.message);
+        setProductChange(!productChange);
+        navigate("/dashboard/admin/products");
+      } else {
+        toast(res.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+      toast(err.message);
+    }
+  }
+
   useEffect(() => {
     singleProduct(`/api/v1/single-product/${id}`);
   }, []);
   useEffect(() => {
     if (Object.keys(product).length > 0) {
-      setCategory(product?.category?.name);
+      setCategory(product?.category?._id);
       setName(product?.name);
       setDescrition(product?.description);
       setPrice(product?.price);
@@ -83,7 +108,6 @@ function UpdateProduct() {
       setQuantity(product?.quantity);
     }
   }, [single_loader]);
-  console.log("nameeeeee", name);
   return (
     <Layout title={"Update and Delete -ecom"}>
       <div className="container">
@@ -106,14 +130,14 @@ function UpdateProduct() {
                   {/* //this is for the category selector */}
 
                   <div className="categorySelector">
-                    {categories.length > 0  && (
+                    {categories.length > 0 && (
                       <Select
                         showSearch
                         placeholder="Select a Category"
                         optionFilterProp="children"
                         onChange={categorySelector}
                         style={{ width: "500px" }}
-                         value={category}
+                        value={category}
                       >
                         {categories?.map((item) => {
                           return <Option value={item._id}>{item.name}</Option>;
@@ -133,6 +157,7 @@ function UpdateProduct() {
                       multiple
                       value={[...images]}
                       accept="image/*"
+                      //fileList={images}
                     >
                       <Button icon={<UploadOutlined />}>Upload</Button>
                     </Upload>
@@ -214,9 +239,15 @@ function UpdateProduct() {
                   <div className="mt-4 mb-4">
                     <button
                       className="btn btn-primary"
-                      onClick={submitProductHandler}
+                      onClick={updateProductHandler}
                     >
-                      Create Product
+                      Update Product
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={deleteProductHandler}
+                    >
+                      Delete Product
                     </button>
                   </div>
                 </div>

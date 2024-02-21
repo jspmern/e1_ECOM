@@ -93,8 +93,6 @@ export let deleteProductController = async (req, res) => {
     success: true,
     deleteProduct,
   });
-
-  res.send(data);
 };
 //this is for update
 export let updateProductController = async (req, res) => {
@@ -103,8 +101,6 @@ export let updateProductController = async (req, res) => {
     req.body;
     let { id } = req.params;
    
-      console.log(name,price,quantity,description,category,brand,shipping)
-      console.log(req.files)
     if (
       !name ||
       !price ||
@@ -117,11 +113,15 @@ export let updateProductController = async (req, res) => {
       return res.status(200).send({ message: "All fields are required *" });
     } else {
       let findData = await productModel.findOne({ _id: id });
-      await deleteImageOnCloudinary(findData.images);
-      let image = await uploadImageOnCloudinary(req.files);
+      let image
+      if(req.files.length>0)
+      {
+        await deleteImageOnCloudinary(findData.images)
+         image = await uploadImageOnCloudinary(req.files);
+      }
       let product = await productModel.findByIdAndUpdate(
         { _id: id },
-        { ...req.body,images:image },
+        { ...req.body,images:image?image:findData.images },
         { new: true }
       );
       res.status(200).send({
