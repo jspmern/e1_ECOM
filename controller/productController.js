@@ -70,7 +70,7 @@ export let getAllProductController = async (req, res) => {
 export let getSingleProductController = async (req, res) => {
   try {
     let { id } = req.params;
-    let product = await productModel.findOne({ _id: id }).populate('category');
+    let product = await productModel.findOne({_id:id }).populate('category');
     res.status(200).send({ message: "Result", product, success: true });
   } catch (err) {
     console.log(err);
@@ -140,7 +140,6 @@ export let updateProductController = async (req, res) => {
 
 //this is for filter product controller
 export let filterProductController=async(req,res)=>{
-  console.log(req.body)
   try{
         let {price,checked}=req.body
         let args={}
@@ -169,4 +168,41 @@ export let totalProductController=async(req,res)=>{
     console.log(err)
     res.status(500).send({message:"Somthing wrong while finding total Length",success:false ,err})
   }
+}
+//this is for the product list controller
+export let productListController=async(req,res)=>{
+  try
+  {
+    let {count}=req.params
+    console.log('dev test 1',count)
+    const page=count?req.params.count:1
+     let perPageContent=3
+     let products=await productModel.find({}).skip((page -1) * perPageContent).limit(perPageContent)
+     res.status(200).send({message:"Product Result",products,success:true})
+  }
+  catch(err)
+  {
+    console.log(err)
+    res.status(500).send({message:"somthing wrong while loading",success:false,err})
+  }
+}
+
+//this is for similar product
+export let similarProductController=async(req,res)=>{
+  try{
+    let {p_id,c_id}=req.params
+    let products=await productModel.find({
+      category:c_id,
+      _id:{$ne:p_id}
+    })
+    res.status(200).send({message:"Similar Product",products,success:true})
+  }
+  
+  catch(err)
+  {
+    console.log(err)
+    res.status(500).send({message:"Somthing wrong",err,success:false})
+  }
+ 
+
 }

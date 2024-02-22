@@ -20,6 +20,7 @@ import AllOrders from "./pages/admin/AllOrders";
 import Users from "./pages/admin/Users";
 import Products from "./pages/admin/Products";
 import UpdateProduct from "./pages/admin/UpdateProduct";
+import DeatailsProduct from "./pages/DeatailsProduct";
 function App() {
   return (
     <Routes>
@@ -30,7 +31,7 @@ function App() {
       <Route path="/signin" element={<SignIn />} />
       <Route path="/signup" element={<Signup />} />
       <Route path="/forget-password" element={<ForgetPassword />} />
-
+      <Route path="/product-details/:id" element={<DeatailsProduct/>} />
       {/* //this is for the normal user */}
       <Route path="/dashboard" element={<ProtectedRoute />}>
         <Route path="user" element={<Dashbord />} />

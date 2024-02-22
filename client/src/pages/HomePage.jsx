@@ -5,16 +5,22 @@ import useProduct from "../hook/useProduct";
 import useCategory from "../hook/useCategory";
 import { Price } from "../components/Price";
 import axios from "axios";
+import AddToCart from "../components/form/AddToCart";
+import MoreDeatils from "../components/form/MoreDeatils";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
-  let { products, loading, error,total } = useProduct();
+  let navigate=   useNavigate()
   let [selectedCategory, setSelectedCategory] = useState([]);
   let [price, setPrice] = useState("");
   let { categories } = useCategory();
   let [filterData, setFilterData] = useState([]);
-  //filter  count
-  let [filterCount,setFilterCount]=useState('')
-  //totalcount
+  let [limitProduct, setLimitProduct] = useState([]);
+  //product count
+  let [productCount, setProductCount] = useState("");
+  //pageCount
+  let [pageCount, setPageCount] = useState(1);
+
   //this is for handling category
   function changeCategoryHandler(e, id) {
     let all = [...selectedCategory];
@@ -32,6 +38,7 @@ function HomePage() {
   function priceHandler(e) {
     setPrice(e.target.value);
   }
+  //this is filteration
   async function filterHanlder() {
     let res = await axios.post("/api/v1/filter-product", {
       price,
@@ -39,9 +46,38 @@ function HomePage() {
     });
     setFilterData(res.data.products);
   }
+  //this is for totalCount
+  async function totalCount() {
+    try {
+      let { data } = await axios.get("/api/v1/totalProduct");
+      setProductCount(data.total);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  //this is for product-list
+  async function productList() {
+    let { data } = await axios.get(`/api/v1/product-list/${pageCount}`);
+
+    setLimitProduct([...data.products, ...limitProduct]);
+  }
+  useEffect(() => {
+    productList();
+  }, [pageCount]);
+  //this useEffect for total count
+  useEffect(() => {
+    totalCount();
+  }, []);
+  //this useEffect for filteration
   useEffect(() => {
     filterHanlder();
   }, [price, selectedCategory]);
+  //this is for singlepageHandler
+  function singlPageHandler(id)
+  {
+       navigate(`/product-details/${id}`)
+  }
 
   return (
     <Layout title="Best Offer -ecomm">
@@ -86,29 +122,40 @@ function HomePage() {
               </div>
             </div>
             <div className="mt-2">
-              <button className="btn btn-danger" onClick={()=>{
-                window.location.reload()
-              }}>CLEAR ALL</button>
+              <button
+                className="btn btn-danger"
+                onClick={() => {
+                  window.location.reload();
+                }}
+              >
+                CLEAR ALL
+              </button>
             </div>
           </div>
           <div className="col-md-9">
             <h4 className="text-center mt-2"> All Products </h4>
-            <p className="text-end">{price || selectedCategory.length>0 ? <p>{filterData.length}/{total} Found</p>:`All Product ${total}`}</p>
+            <p className="text-end">
+              {price || selectedCategory.length > 0 ? (
+                <p>
+                  {filterData.length}/{productCount} Found
+                </p>
+              ) : (
+                `All Product ${productCount}`
+              )}
+            </p>
             <div className="row">
-              {loading && <h4>loding.....</h4>}
-              {loading && products.length == 0 && <h4>loading....</h4>}
-              {!loading && error && <h4>somthing wrong....</h4>}
-              {!loading && products.length > 0 && (
+              {limitProduct.length == 0 && <h4>loading....</h4>}
+              {limitProduct.length > 0 && (
                 <>
                   {(selectedCategory.length > 0 || price
                     ? filterData
-                    : products
+                    : limitProduct
                   ).map((item, i) => {
                     let {
                       name = "unknow",
                       price = 0,
                       brand = "unknown",
-                      images,
+                      images = "https://newhorizoncollegeofengineering.in/applied_science_elementor/wp-content/uploads/2020/01/default-placeholder.png",
                     } = item;
                     return (
                       <div className="col-md-4 mb-3" key={i}>
@@ -127,12 +174,8 @@ function HomePage() {
                             <p>{brand}</p>
                             <p>{price}</p>
                             <div className="action d-flex">
-                              <button className="btn btn-primary">
-                                More Details
-                              </button>
-                              <button className="btn btn-secondary ms-2">
-                                ADD TO CART
-                              </button>
+                                 <MoreDeatils p_id={item._id} singlPageHandler={singlPageHandler}/>
+                                <AddToCart/>
                             </div>
                           </div>
                         </div>
@@ -142,6 +185,18 @@ function HomePage() {
                 </>
               )}
             </div>
+          </div>
+          <div className="d-flex justify-content-center m-3">
+            {productCount > limitProduct.length && (
+              <button
+                className="btn btn-warning"
+                onClick={() => {
+                  setPageCount(pageCount + 1);
+                }}
+              >
+                LOAD MORE
+              </button>
+            )}
           </div>
         </div>
       </div>

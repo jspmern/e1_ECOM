@@ -1,6 +1,6 @@
 import express from 'express'
 import { isAdmin, isRequire } from '../middleware/authMiddleware.js';
-import { createProductController, deleteProductController, filterProductController, getAllProductController, getSingleProductController, totalProductController, updateProductController } from '../controller/productController.js';
+import { createProductController, deleteProductController, filterProductController, getAllProductController, getSingleProductController, productListController, similarProductController, totalProductController, updateProductController } from '../controller/productController.js';
 import uploads from '../config/multer.js';
 let route=express.Router()
 //create-product || POST
@@ -16,5 +16,9 @@ route.put('/update-product/:id',isRequire,isAdmin,uploads.array('images',4),upda
 //FilterProduct || POST
 route.post('/filter-product',filterProductController)
 //TotalProductCount || GET
-route.post ('/totalProduct',totalProductController)
+route.get ('/totalProduct',totalProductController)
+//ProductList || GET
+route.get('/product-list/:count',productListController)
+//similar Product || GET
+route.get('/similar-product/:p_id/:c_id',similarProductController)
 export default route;
