@@ -13,7 +13,7 @@ function ProductReducers(state, action) {
     case LOADING:
       return { ...state, loading: true };
     case FETCHED_DATA:
-      return { ...state, loading: false, products: action.payload };
+      return { ...state, loading: false, products: action.payload ,total:action.payload.length};
     case ERROR:
       return { ...state, loading: false, error: action.payload };
     case SINGLE_FETCHED_PRODUCT:

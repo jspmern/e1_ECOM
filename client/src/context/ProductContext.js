@@ -15,6 +15,7 @@ export let productContext = createContext();
 let initalState = {
   loading: false,
   products: [],
+  total:'',
   error: "",
   product:{},
   single_loader:false,

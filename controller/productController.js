@@ -158,3 +158,15 @@ export let filterProductController=async(req,res)=>{
   let {price,category}=req.body
 
 }
+//this is for the finding total product 
+export let totalProductController=async(req,res)=>{
+  try{
+    let productCount=await productModel.find({}).estimatedDocumentCount();
+    res.status(200).send({message:"Total Count",total:productCount,success:true})
+  }
+  catch(err)
+  {
+    console.log(err)
+    res.status(500).send({message:"Somthing wrong while finding total Length",success:false ,err})
+  }
+}

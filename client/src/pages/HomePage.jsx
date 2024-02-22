@@ -7,11 +7,14 @@ import { Price } from "../components/Price";
 import axios from "axios";
 
 function HomePage() {
-  let { products, loading, error } = useProduct();
+  let { products, loading, error,total } = useProduct();
   let [selectedCategory, setSelectedCategory] = useState([]);
   let [price, setPrice] = useState("");
   let { categories } = useCategory();
   let [filterData, setFilterData] = useState([]);
+  //filter  count
+  let [filterCount,setFilterCount]=useState('')
+  //totalcount
   //this is for handling category
   function changeCategoryHandler(e, id) {
     let all = [...selectedCategory];
@@ -90,6 +93,7 @@ function HomePage() {
           </div>
           <div className="col-md-9">
             <h4 className="text-center mt-2"> All Products </h4>
+            <p className="text-end">{price || selectedCategory.length>0 ? <p>{filterData.length}/{total} Found</p>:`All Product ${total}`}</p>
             <div className="row">
               {loading && <h4>loding.....</h4>}
               {loading && products.length == 0 && <h4>loading....</h4>}
