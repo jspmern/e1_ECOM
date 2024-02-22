@@ -1,34 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout/Layout";
-import { Checkbox ,Radio } from "antd";
+import { Checkbox, Radio } from "antd";
 import useProduct from "../hook/useProduct";
 import useCategory from "../hook/useCategory";
 import { Price } from "../components/Price";
+import axios from "axios";
 
 function HomePage() {
   let { products, loading, error } = useProduct();
-  let [selectedCategory,setSelectedCategory]=useState([])
-  let [price,setPrice]=useState('')
+  let [selectedCategory, setSelectedCategory] = useState([]);
+  let [price, setPrice] = useState("");
   let { categories } = useCategory();
+  let [filterData, setFilterData] = useState([]);
   //this is for handling category
-  function changeCategoryHandler(e,id)
-  {
-    let all=[...selectedCategory]
-    let checked=e.target.checked
-     if(checked)
-     {
-      all.push(id)
-     }
-     else{
-      all=all.filter((data)=>{return data !=id})
-     }
-     setSelectedCategory([...all])
+  function changeCategoryHandler(e, id) {
+    let all = [...selectedCategory];
+    let checked = e.target.checked;
+    if (checked) {
+      all.push(id);
+    } else {
+      all = all.filter((data) => {
+        return data != id;
+      });
+    }
+    setSelectedCategory([...all]);
   }
   //this is for price handler
-  function priceHandler(e)
-  {
-   setPrice(e.target.value)
+  function priceHandler(e) {
+    setPrice(e.target.value);
   }
+  async function filterHanlder() {
+    let res = await axios.post("/api/v1/filter-product", {
+      price,
+      checked: selectedCategory,
+    });
+    setFilterData(res.data.products);
+  }
+  useEffect(() => {
+    filterHanlder();
+  }, [price, selectedCategory]);
 
   return (
     <Layout title="Best Offer -ecomm">
@@ -39,31 +49,43 @@ function HomePage() {
               <h6>All Category</h6>
               <hr />
               <div className="mt-1">
-              {categories.map((item) => {
-                    return (
-                      <div key={item._id}>
-                          <Checkbox value={item._id} className="p-2" style={{fontSize:"16px"}} onChange={(e)=>{
-                            changeCategoryHandler(e,item._id)
-                          }}>{item.name}</Checkbox>
-                      </div>   
-                    )   
-                  })}
+                {categories.map((item) => {
+                  return (
+                    <div key={item._id}>
+                      <Checkbox
+                        value={item._id}
+                        className="p-2"
+                        style={{ fontSize: "16px" }}
+                        onChange={(e) => {
+                          changeCategoryHandler(e, item._id);
+                        }}
+                      >
+                        {item.name}
+                      </Checkbox>
+                    </div>
+                  );
+                })}
               </div>
             </div>
             <div className="price-range mt-2">
               <h6> Filter By Price</h6>
               <hr />
-              {JSON.stringify(price,null,4)}
-                 <div className="mt-2">
-                 <Radio.Group onChange={priceHandler}>
-                  {Price.map((item)=>{
-                    return    <div key={item._id} className="p-2"><Radio value={item.array} >{item.name}</Radio></div>  
+              <div className="mt-2">
+                <Radio.Group onChange={priceHandler}>
+                  {Price.map((item) => {
+                    return (
+                      <div key={item._id} className="p-2">
+                        <Radio value={item.array}>{item.name}</Radio>
+                      </div>
+                    );
                   })}
-      
-       
-    </Radio.Group>
-                 </div>
-            
+                </Radio.Group>
+              </div>
+            </div>
+            <div className="mt-2">
+              <button className="btn btn-danger" onClick={()=>{
+                window.location.reload()
+              }}>CLEAR ALL</button>
             </div>
           </div>
           <div className="col-md-9">
@@ -74,7 +96,10 @@ function HomePage() {
               {!loading && error && <h4>somthing wrong....</h4>}
               {!loading && products.length > 0 && (
                 <>
-                  {products.map((item, i) => {
+                  {(selectedCategory.length > 0 || price
+                    ? filterData
+                    : products
+                  ).map((item, i) => {
                     let {
                       name = "unknow",
                       price = 0,
