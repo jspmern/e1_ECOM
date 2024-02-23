@@ -21,6 +21,9 @@ import Users from "./pages/admin/Users";
 import Products from "./pages/admin/Products";
 import UpdateProduct from "./pages/admin/UpdateProduct";
 import DeatailsProduct from "./pages/DeatailsProduct";
+import SearchPage from "./pages/SearchPage";
+import AllCategory from "./pages/AllCategory";
+import CategoryPage from "./pages/CategoryPage";
 function App() {
   return (
     <Routes>
@@ -32,6 +35,9 @@ function App() {
       <Route path="/signup" element={<Signup />} />
       <Route path="/forget-password" element={<ForgetPassword />} />
       <Route path="/product-details/:id" element={<DeatailsProduct/>} />
+      <Route path="/search" element={<SearchPage/>} />
+      <Route path="/all-category" element={<AllCategory/>} />
+      <Route path="/all-category/:slug" element={<CategoryPage/>} />
       {/* //this is for the normal user */}
       <Route path="/dashboard" element={<ProtectedRoute />}>
         <Route path="user" element={<Dashbord />} />

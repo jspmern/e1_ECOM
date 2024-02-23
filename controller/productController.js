@@ -4,6 +4,7 @@ import {
   uploadImageOnCloudinary,
 } from "../helper/cloudinaryHelper.js";
 import productModel from "../model/productModel.js";
+import categoryModel from "../model/categoryModel.js";
 //this is for product creation
 export let createProductController = async (req, res) => {
   try {
@@ -205,4 +206,36 @@ export let similarProductController=async(req,res)=>{
   }
  
 
+}
+
+//this is for serching
+export let serchHandlerController=async(req,res)=>{
+  try{
+    let {keyword}=req.params;
+    let products=await productModel.find({$or:[
+       {name:{$regex:keyword,$options:'i'}},
+       {description:{$regex:keyword,$options:"i"}}
+    ]})
+    res.status(200).send({message:"Result Found",products,success:true,total:products.count})
+    
+  }
+  catch(err)
+  {
+    console.log(err)
+    res.status(500).send({message:"Somthing wrong while searching",err,success:false})
+  }
+}
+//this is for productBycategory
+export let productCategoryController=async(req,res)=>{
+  let {slug}=req.params
+   try{
+     let category= await categoryModel.find({slug:slug})
+     let product=await productModel.find({category:category})
+     res.status(200).send({message:"Result Found",success:true,product,total:product.length})
+   }
+   catch(err)
+   {
+    console.log(err)
+    res.status(500).send({message:"somthing wrong while fetching",err,success:false})
+   }
 }
