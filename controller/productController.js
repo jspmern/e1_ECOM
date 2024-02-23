@@ -194,7 +194,7 @@ export let similarProductController=async(req,res)=>{
     let products=await productModel.find({
       category:c_id,
       _id:{$ne:p_id}
-    })
+    }).limit(3)
     res.status(200).send({message:"Similar Product",products,success:true})
   }
   

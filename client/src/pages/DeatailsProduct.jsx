@@ -4,19 +4,21 @@ import { useParams } from "react-router-dom";
 import useProduct from "../hook/useProduct";
 import AddToCart from "../components/form/AddToCart";
 import axios from "axios";
+import SimilarProduct from "./SimilarProduct";
 
 function DeatailsProduct() {
   let { id } = useParams();
   let [count, setCount] = useState(0);
   let { product, single_loader, single_error, singleProduct } = useProduct();
-  console.log("hello i am singleproduct", product);
+  let[similarProduct,setSimilarProduct]=useState([])
   useEffect(() => {
     singleProduct(`/api/v1/single-product/${id}`);
-  }, []);
+  }, [id]);
   async function similarProductHandler()
   {
-    let {data}= await axios.get(`/api/v1/similar-product/${singleProduct?._id}/${singleProduct.category?._id}`)
-    console.log('xyz',data)
+    let {data}= await axios.get(`/api/v1/similar-product/${product?._id}/${product.category?._id}`)
+    setSimilarProduct(data.products)
+  
   }
   useEffect(()=>{
     if(Object.keys(product).length>0) {
@@ -45,7 +47,7 @@ function DeatailsProduct() {
                         >
                           <img
                             src={item.url}
-                            style={{height:"45px", width:"45px"}}
+                            style={{height:"13rem", width:"18rem"}}
                             alt={item.url}
                             className="img-fluid"
                           />
@@ -54,7 +56,7 @@ function DeatailsProduct() {
                     })}
                   </div>
                   <div className="col-md-5">
-                    <img   style={{height:"55px", width:"55px"}}
+                    <img   style={{height:"13rem", width:"18rem"}}
                       src={product?.images[count]?.url}
                       alt={product?.images[count]?.url}
                       className="img-fluid"
@@ -74,6 +76,7 @@ function DeatailsProduct() {
         )}
         <div className="row">
             <h4 className="text-start m-5">Similar Product</h4>
+            <SimilarProduct  product={similarProduct}/> 
         </div>
       </div>
     </Layout>
