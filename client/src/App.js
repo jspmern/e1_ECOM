@@ -44,7 +44,6 @@ function App() {
         <Route path="user/order" element={<Order />} />
         <Route path="user/profile" element={<Profile />} />
       </Route>
-
       {/* //this is for admin user */}
       <Route path="/dashboard" element={<AdminProtectedRoute/>}>
         <Route path="admin" element={<AdminDashboard/>}/>

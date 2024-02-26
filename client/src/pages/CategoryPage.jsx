@@ -47,7 +47,7 @@ function CategoryPage() {
                                 <p>{item?.brand}</p>
                                 <MoreDeatils p_id={item._id} singlPageHandler={singlPageHandler}  />
                                
-                                <AddToCart/>
+                                <AddToCart prod={item}/>
                             </div>
                         </div>
                     </div>
