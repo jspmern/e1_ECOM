@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react"
 
 export let cartContext =createContext()
-
+//this is for cart context
 function CartContext({children}) {
     let [cart,setCart]=useState(getCartData())
     function getCartData()
