@@ -5,7 +5,6 @@ import useProduct from "../hook/useProduct";
 import AddToCart from "../components/form/AddToCart";
 import axios from "axios";
 import SimilarProduct from "./SimilarProduct";
-
 function DeatailsProduct() {
   let { id } = useParams();
   let [count, setCount] = useState(0);
@@ -69,7 +68,7 @@ function DeatailsProduct() {
                         <p>{product?.brand}</p>
                         <p>{product?.quantity ? "In Stock":"Out of Stock"}</p>
                         <p>{product?.shipping=="yes"?"Available":"Not Available"}</p>
-                        <AddToCart/>
+                        <AddToCart prod={product}/>
               </div>
             </div>
           </>

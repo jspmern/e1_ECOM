@@ -28,7 +28,7 @@ function SimilarProduct({product}) {
                                 {/* <button className="btn btn-primary" onClick={()=>{
                                     singlePageHandler(item._id)
                                 }}>MORE DETAILS</button> */}
-                                <AddToCart/>
+                                <AddToCart prod={item}/>
                             </div>
                         </div>
                     </div>

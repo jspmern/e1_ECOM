@@ -8,6 +8,7 @@ import { AuthContext } from "./context/AuthContext";
 import CategoryContext from "./context/categoryContext";
 import ProductContext from "./context/ProductContext";
 import SearchContext from "./context/SearchContext";
+import CartContext from "./context/CartContext";
 
 //this is for testing
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -17,9 +18,11 @@ root.render(
       <AuthContext>
         <CategoryContext>
           <SearchContext>
-          <ProductContext>
-          <App />
-          </ProductContext>
+            <ProductContext>
+              <CartContext>
+                <App />
+              </CartContext>
+            </ProductContext>
           </SearchContext>
         </CategoryContext>
       </AuthContext>
