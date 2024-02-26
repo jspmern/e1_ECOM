@@ -24,6 +24,7 @@ import DeatailsProduct from "./pages/DeatailsProduct";
 import SearchPage from "./pages/SearchPage";
 import AllCategory from "./pages/AllCategory";
 import CategoryPage from "./pages/CategoryPage";
+import Checkout from "./pages/Checkout";
 function App() {
   return (
     <Routes>
@@ -38,6 +39,7 @@ function App() {
       <Route path="/search" element={<SearchPage/>} />
       <Route path="/all-category" element={<AllCategory/>} />
       <Route path="/all-category/:slug" element={<CategoryPage/>} />
+      <Route path="/cart" element={<Checkout/>}/>
       {/* //this is for the normal user */}
       <Route path="/dashboard" element={<ProtectedRoute />}>
         <Route path="user" element={<Dashbord />} />

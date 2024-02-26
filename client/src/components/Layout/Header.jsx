@@ -13,6 +13,7 @@ function Header() {
   //function for logouthandler
   function logoutHandler() {
     setAuth({ user: "", token: null });
+      
   }
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
