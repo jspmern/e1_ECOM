@@ -39,6 +39,7 @@ function Checkout() {
     {
         setCart([])
         toast('Order Successful')
+        navigate('/dashboard/user/order')
 
     }
   }
