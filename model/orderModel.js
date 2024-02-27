@@ -11,5 +11,5 @@ let orderSchema=new mongoose.Schema({
         enum:["Not Process","Processing","Shipped","Delivered","Cancel"]
     }
     
-})
+},{timestamps:true})
 export default mongoose.model('order',orderSchema)

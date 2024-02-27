@@ -1,6 +1,6 @@
 import React from "react";
 import { Badge } from "antd";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Search from "../form/Search";
 import useCategory from "../../hook/useCategory";
@@ -10,9 +10,11 @@ function Header() {
   let [auth, setAuth] = useAuth();
   let { categories } = useCategory();
   let [cart]=useCart()
+  let navigate=useNavigate()
   //function for logouthandler
   function logoutHandler() {
     setAuth({ user: "", token: null });
+    navigate('/signin')
       
   }
   return (

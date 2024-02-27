@@ -19,6 +19,10 @@ function Checkout() {
       return acc + item.price;
     }, 0);
   }
+  //this is for update handler
+  let updateAddressHandler=()=>{
+     navigate('/dashboard/user/profile',{ state: "/cart" })
+  }
   //thi is funciton login handler
   function loginHandler() {
     navigate("/signin", { state: "/cart" });
@@ -83,7 +87,7 @@ function Checkout() {
               })}
             </div>
           </div>
-          <div className="col-md-5">
+          {cart.length>0 && <div className="col-md-5">
             <h4 className="text-center m-2">Cart Summary</h4>
             <p className="text-center"> Total | Checkout | Payment</p>
             <hr />
@@ -103,17 +107,17 @@ function Checkout() {
                     <p>
                       <strong>{auth?.user?.address}</strong>
                     </p>
-                    <button className="btn btn-warning">Update Address</button>
+                    <button className="btn btn-warning" onClick={updateAddressHandler}>Update Address</button>
                   </>
                 ) : (
-                  <button className="btn btn-warning">Update Address</button>
+                  <button className="btn btn-warning" onClick={updateAddressHandler}>Update Address</button>
                 ))}
             </div>
 
             {/* //abc */}
             <div className="row">
               <div className="col">
-                {clientToken && (
+                {auth.token && clientToken && (
                   <>
                     {" "}
                     <DropIn
@@ -136,7 +140,8 @@ function Checkout() {
                 )}
               </div>
             </div>
-          </div>
+          </div>}
+          
         </div>
       </div>
     </Layout>
