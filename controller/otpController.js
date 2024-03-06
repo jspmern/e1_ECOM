@@ -1,5 +1,5 @@
 import otpModel from "../model/otpModel.js";
-import userModel from "../model/userModel.js";
+import userModel from "../model/usersModel.js";
 import { randomInt } from "crypto";
 import jwt from "jsonwebtoken";
 import transporter from "../config/nodemailer.js";
