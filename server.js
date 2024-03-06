@@ -8,6 +8,7 @@ import categoryRoute from './route/createRoute.js'
 import productRoute from './route/productRoute.js'
 import orderRoute from './route/orderRoute.js'
 let app=express(); 
+//.....with new laptop......//
 //config
 //this is for dotenv
 dotenv.config()
